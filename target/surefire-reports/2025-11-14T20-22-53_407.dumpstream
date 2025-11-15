@@ -1,0 +1,5 @@
+# Created at 2025-11-14T20:22:54.546
+Boot Manifest-JAR contains absolute paths in classpath 'D:\trabajos spring frameword\spring_futbol\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

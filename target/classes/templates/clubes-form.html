@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${club.id} != null ? 'Editar club' : 'Nuevo club'">Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        form > div {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-left: 5px;
+        }
+
+        input[type="text"],
+        select {
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+            color: #2d3748;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"]:hover,
+        select:hover {
+            border-color: #cbd5e0;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 45px;
+        }
+
+        .checkbox-group {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .checkbox-group > div {
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group > div:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+
+        .checkbox-group label:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-group span {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        button[type="submit"] {
+            flex: 1;
+            padding: 16px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        button[type="submit"]:hover {
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        a {
+            flex: 1;
+            padding: 16px 30px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        a:hover::before {
+            left: 100%;
+        }
+
+        a:hover {
+            box-shadow: 0 6px 25px rgba(250, 112, 154, 0.6);
+            transform: translateY(-2px);
+        }
+
+        a:active {
+            transform: translateY(0);
+        }
+
+        /* Scrollbar personalizado para checkbox-group */
+        .checkbox-group::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .checkbox-group::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .checkbox-group::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .checkbox-group::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button[type="submit"],
+            a {
+                width: 100%;
+            }
+        }
+
+        /* Animación de entrada */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: slideIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 th:text="${club.id} != null ? 'Editar club' : 'Crear nuevo club'"></h1>
+
+    <form th:action="@{/clubes/guardar}" method="post">
+        <!-- ID oculto para edición -->
+        <input type="hidden" name="id" th:value="${club.id}"/>
+
+        <div>
+            <label>Nombre:</label>
+            <input type="text" name="nombre" th:value="${club.nombre}" required/>
+        </div>
+
+        <div>
+            <label>Ciudad:</label>
+            <input type="text" name="ciudad" th:value="${club.ciudad}" required/>
+        </div>
+
+        <div>
+            <label>Entrenador:</label>
+            <select name="entrenadorId" required>
+                <option value="">-- Seleccione --</option>
+                <option th:each="ent : ${entrenadores}"
+                        th:value="${ent.id}"
+                        th:text="${ent.nombre + ' ' + ent.apellido}"
+                        th:selected="${club.entrenador != null and club.entrenador.id == ent.id}">
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label>Asociación:</label>
+            <select name="asociacionId" required>
+                <option value="">-- Seleccione --</option>
+                <option th:each="aso : ${asociaciones}"
+                        th:value="${aso.id}"
+                        th:text="${aso.nombre}"
+                        th:selected="${club.asociacion != null and club.asociacion.id == aso.id}">
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label>Competiciones:</label>
+            <div class="checkbox-group">
+                <div th:each="comp : ${competiciones}">
+                    <label>
+                        <input type="checkbox" name="competicionesIds"
+                               th:value="${comp.id}"
+                               th:checked="${club.competiciones != null and club.competiciones.contains(comp)}"/>
+                        <span th:text="${comp.nombre}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/clubes}">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

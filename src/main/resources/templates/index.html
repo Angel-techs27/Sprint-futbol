@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú principal - Sistema de Clubes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            color: #718096;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 20px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        a:hover::before {
+            left: 100%;
+        }
+
+        a:hover {
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+            transform: scale(1.02);
+        }
+
+        a:active {
+            transform: scale(0.98);
+        }
+
+        li:nth-child(1) a {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        li:nth-child(2) a {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        li:nth-child(3) a {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            box-shadow: 0 4px 15px rgba(67, 233, 123, 0.4);
+        }
+
+        li:nth-child(4) a {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
+        }
+
+        li:nth-child(5) a {
+            background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+            box-shadow: 0 4px 15px rgba(254, 202, 87, 0.4);
+        }
+
+        li:nth-child(1) a:hover {
+            box-shadow: 0 6px 25px rgba(245, 87, 108, 0.6);
+        }
+
+        li:nth-child(2) a:hover {
+            box-shadow: 0 6px 25px rgba(79, 172, 254, 0.6);
+        }
+
+        li:nth-child(3) a:hover {
+            box-shadow: 0 6px 25px rgba(67, 233, 123, 0.6);
+        }
+
+        li:nth-child(4) a:hover {
+            box-shadow: 0 6px 25px rgba(250, 112, 154, 0.6);
+        }
+
+        li:nth-child(5) a:hover {
+            box-shadow: 0 6px 25px rgba(254, 202, 87, 0.6);
+        }
+
+        .icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h3 {
+                font-size: 1em;
+            }
+
+            a {
+                font-size: 1em;
+                padding: 18px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sistema de Clubes de Fútbol</h1>
+    <h3>Menú principal</h3>
+
+    <ul>
+        <li><a th:href="@{/clubes}"><span class="icon">⚽</span> Gestión de Clubes</a></li>
+        <li><a th:href="@{/entrenadores}"><span class="icon">🧢</span> Gestión de Entrenadores</a></li>
+        <li><a th:href="@{/jugadores}"><span class="icon">👟</span> Gestión de Jugadores</a></li>
+        <li><a th:href="@{/asociaciones}"><span class="icon">🏛️</span> Gestión de Asociaciones</a></li>
+        <li><a th:href="@{/competiciones}"><span class="icon">🏆</span> Gestión de Competiciones</a></li>
+    </ul>
+</div>
+
+</body>
+</html>
